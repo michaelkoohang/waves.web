@@ -7,7 +7,8 @@
   "author": "Michael Koohang <michael.s.k1001@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "start-dev": "nodemon server.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -15,8 +16,10 @@
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "lodash": "^4.17.21",
     "mongoose": "^5.12.1",
     "ngrok": "^3.4.1",
+    "nodemon": "^2.0.7",
     "qs": "^6.9.6"
   }
 }
