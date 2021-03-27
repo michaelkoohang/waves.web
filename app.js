@@ -11,7 +11,6 @@ const express = require("express");   // express web framework
 
 // instantiate express app and connect to db
 const app = express();
-const db = require('./model/db');
 
 // create routes
 const authRouter = require('./routes/auth/auth');
