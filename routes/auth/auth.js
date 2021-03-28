@@ -1,3 +1,4 @@
+const auth = require('../../utils/jwt');
 const db = require('../../model/db');
 const express = require('express');
 const router = express.Router();
@@ -33,6 +34,7 @@ router.post("/login", (req, res) => {
   utils.login(authToken)
     .then(data => {
       let response = data.data;
+      let jwtToken = auth.makeAccessToken(response.id)
       const newUser = new db.User({
         name: response.display_name,
         username: response.id,
@@ -44,17 +46,17 @@ router.post("/login", (req, res) => {
       db.User.countDocuments({ username: newUser.username }, (err, count) => {
         if (err) {};
         if (count > 0) {
-          res.json({messsage: "User already exists. Logged in."});
+          res.json({username: response.id, token: jwtToken});
         } else {
           newUser.save((err, user) => {
             if (err) return console.error(err);
-            res.json({message: "New user created. Logged in.", user});
+            res.json({username: response.id, token: jwtToken});
           });
         }
       });
     })
-    .catch(err => {
-      console.error(err)
+    .catch(() => {
+      res.status(401).send('Unauthorized');
     });
 });
 

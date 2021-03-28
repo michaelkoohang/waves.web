@@ -1,4 +1,5 @@
 
+const auth = require('../../utils/jwt');
 const express = require('express');
 const router = express.Router();
 const db = require('../../model/db');
@@ -6,7 +7,7 @@ const token = require('../../utils/token');
 const utils = require('./radarUtils');
 
 // get a user's radar
-router.get("/radar", (req, res) => {
+router.get("/radar", auth.authenticateToken, (req, res) => {
   let username = req.headers.username;
   db.User.findOne({username: username}).exec()
     .then(user => {

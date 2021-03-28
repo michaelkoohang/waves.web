@@ -1,15 +1,16 @@
+const auth = require('../../utils/jwt');
 const express = require('express');
 const router = express.Router();
 const db = require('../../model/db');
 const {map} = require('lodash');
 
 // get a user's list of friends
-router.get("/friends", (req, res) => {
+router.get("/friends", auth.authenticateToken, (req, res) => {
   let username = req.headers.username;
   db.User.find({username: username}).exec()
   .then(user => {
     return Promise.all(map(user[0].friends, friend => {
-      return db.User.findById(friend).select('name username service -_id').exec();
+      return db.User.findById(friend).select('name username service').exec();
     }));
   })
   .then(data => {
